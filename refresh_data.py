@@ -2,11 +2,14 @@
 """
 refresh_data.py — 真实数据刷新脚本（零第三方依赖，仅用 Python 标准库）
 
-数据来源（全部为公开接口，K线优先级：新浪 → 东财 → 腾讯）：
+数据来源（全部为公开接口，K线优先级：新浪 → 东财 → 腾讯 → 通达信）：
   1) 新浪财经 money.finance.sina.com.cn（主源）：ETF/指数日线（收盘价 + 成交量；
      ETF 成交额用 量×均价 估算，与东财真实值误差 <0.01%；注意：新浪日线为不复权）
   2) 东方财富 push2his（备源 + 指数成交额补缺）：指数真实成交额仅东财提供
   3) 腾讯 web.ifzq.gtimg.cn（兜底备源）
+  3b) 通达信行情服务器（海外兜底备源，纯 socket 协议，零依赖）：当新浪/东财/腾讯
+      在境外 IP 被墙时启用；提供 SH/SZ 指数与全部 ETF 的真实收盘价与真实成交额
+      （不复权）。中证 2.xxx / 国证 980xxx 指数通达信指数库不含，无法覆盖。
   4) 上交所 query.sse.com.cn：沪市 ETF 每日总份额（万份）
   5) 深交所 investor.szse.cn：深市 ETF 历史规模 fund_jjgm（万份；支持全量历史，
      内部按 ~90 天分段查询+翻页）
@@ -23,10 +26,13 @@ import io
 import json
 import os
 import re
+import socket
+import struct
 import subprocess
 import sys
 import time
 import zipfile
+import zlib
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta
 
@@ -237,11 +243,205 @@ def fetch_kline_tencent(secid, beg=KLINE_BEG, is_etf=True):
     return out
 
 
-_FAILS = {"sina": 0, "em": 0, "sohu": 0}  # 各源连续失败次数；连续失败 2 次后本轮跳过该源
+# ===================== 通达信兜底备源（纯标准库 socket 协议，零依赖） =====================
+# 场景：GitHub Actions 等境外 IP 下，新浪/东财/腾讯常被墙；通达信行情服务器（电信/联通
+# 节点）在境外多可达，提供 SH/SZ 指数与全部 ETF 的真实收盘价 + 真实成交额（不复权）。
+# 协议要点：3 个握手包 → 请求包(struct)；响应 16 字节头含 zip/unzip 长度，zip!=unzip 时
+# zlib 解压；日线体为 差分 varint 价格 + 浮点编码量额；指数比个股多 4 字节涨跌家数。
+
+TDX_SERVERS = [
+    ("60.12.136.250", 7709), ("218.108.98.244", 7709), ("115.238.90.165", 7709),
+    ("218.75.126.9", 7709), ("124.71.187.122", 7709), ("218.6.170.47", 7709),
+    ("119.147.212.81", 7709), ("123.125.108.14", 7709),
+]
+TDX_SETUP = [
+    bytes.fromhex("0c 02 18 93 00 01 03 00 03 00 0d 00 01"),
+    bytes.fromhex("0c 02 18 94 00 01 03 00 03 00 0d 00 02"),
+    bytes.fromhex("0c 03 18 99 00 01 20 00 20 00 db 0f d5 d0 c9 cc d6 a4 a8 af "
+                  "00 00 00 8f c2 25 40 13 00 00 d5 00 c9 cc bd f0 d7 ea 00 00 00 02"),
+]
+_TDX = {"sock": None}  # 复用长连接，避免逐指数重复握手
+
+
+def _tdx_build_req(market, code, start, count):
+    code_b = code.encode("utf-8") if isinstance(code, str) else code
+    values = (0x10c, 0x01016408, 0x1c, 0x1c, 0x052d, market, code_b,
+              9, 1, start, count, 0, 0, 0)  # category=9 日线
+    return struct.pack("<HIHHHH6sHHHHIIH", *values)
+
+
+def _tdx_recv(sock, n):
+    buf = b""
+    while len(buf) < n:
+        chunk = sock.recv(n - len(buf))
+        if not chunk:
+            break
+        buf += chunk
+    return buf
+
+
+def _tdx_call(sock, pkg):
+    sock.sendall(pkg)
+    head = _tdx_recv(sock, 16)
+    if len(head) < 16:
+        raise RuntimeError("tdx head short")
+    _, _, _, zipsize, unzipsize = struct.unpack("<IIIHH", head)
+    body = _tdx_recv(sock, zipsize)
+    if len(body) < zipsize:
+        raise RuntimeError("tdx body short")
+    if zipsize != unzipsize:
+        body = zlib.decompress(body)
+    return body
+
+
+def _tdx_price(data, pos):
+    """通达信有符号变长整数（base128 varint，最低字节高位=符号）"""
+    pos_byte = 6
+    b = data[pos]
+    intdata = b & 0x3f
+    sign = bool(b & 0x40)
+    if b & 0x80:
+        while True:
+            pos += 1
+            b = data[pos]
+            intdata += (b & 0x7f) << pos_byte
+            pos_byte += 7
+            if not (b & 0x80):
+                break
+    pos += 1
+    if sign:
+        intdata = -intdata
+    return intdata, pos
+
+
+def _tdx_volume(ivol):
+    """通达信量/额浮点编码解码（源自 pytdx，逐位复刻）"""
+    logpoint = ivol >> 24
+    hleax = (ivol >> 16) & 0xff
+    lheax = (ivol >> 8) & 0xff
+    lleax = ivol & 0xff
+    dwEcx = logpoint * 2 - 0x7f
+    dwEdx = logpoint * 2 - 0x86
+    dwEsi = logpoint * 2 - 0x8e
+    dwEax = logpoint * 2 - 0x96
+    tmpEax = -dwEcx if dwEcx < 0 else dwEcx
+    dbl_xmm6 = pow(2.0, tmpEax)
+    if dwEcx < 0:
+        dbl_xmm6 = 1.0 / dbl_xmm6
+    if hleax > 0x80:
+        tmpdbl_xmm3 = pow(2.0, dwEdx + 1)
+        dbl_xmm0 = pow(2.0, dwEdx) * 128.0 + (hleax & 0x7f) * tmpdbl_xmm3
+        dbl_xmm4 = dbl_xmm0
+    else:
+        if dwEdx >= 0:
+            dbl_xmm4 = pow(2.0, dwEdx) * hleax
+        else:
+            dbl_xmm4 = (1 / pow(2.0, dwEdx)) * hleax
+    dbl_xmm3 = pow(2.0, dwEsi) * lheax
+    dbl_xmm1 = pow(2.0, dwEax) * lleax
+    if hleax & 0x80:
+        dbl_xmm3 *= 2.0
+        dbl_xmm1 *= 2.0
+    return dbl_xmm6 + dbl_xmm4 + dbl_xmm3 + dbl_xmm1
+
+
+def _tdx_parse(buf, is_index):
+    (n,) = struct.unpack("<H", buf[0:2])
+    pos = 2
+    out = []
+    pre_diff_base = 0
+    for _ in range(n):
+        (zipday,) = struct.unpack("<I", buf[pos:pos + 4]); pos += 4  # 日线 category>=4：YYYYMMDD 整数
+        year = zipday // 10000
+        month = (zipday % 10000) // 100
+        day = zipday % 100
+        po, pos = _tdx_price(buf, pos)   # open diff
+        pc, pos = _tdx_price(buf, pos)   # close diff
+        _ph, pos = _tdx_price(buf, pos)  # high diff（未用）
+        _pl, pos = _tdx_price(buf, pos)  # low diff（未用）
+        pos += 4                          # vol_raw（未用）
+        (amt_raw,) = struct.unpack("<I", buf[pos:pos + 4]); pos += 4
+        if is_index:
+            pos += 4                      # up_count, down_count
+        base = po + pre_diff_base
+        close = (base + pc) / 1000.0
+        pre_diff_base = base + pc
+        amount = _tdx_volume(amt_raw)
+        out.append((year, month, day, close, amount))
+    return out
+
+
+def _tdx_sock():
+    """返回可用长连接（缓存复用）；不可用时轮换服务器重连并握手"""
+    s = _TDX.get("sock")
+    if s is not None:
+        return s
+    last_err = None
+    for ip, port in TDX_SERVERS:
+        try:
+            s = socket.create_connection((ip, port), timeout=6)
+            s.settimeout(10)
+            for p in TDX_SETUP:
+                _tdx_call(s, p)
+            _TDX["sock"] = s
+            return s
+        except Exception as e:
+            last_err = e
+            continue
+    raise RuntimeError("tdx no server: %s" % last_err)
+
+
+def _tdx_close():
+    s = _TDX.get("sock")
+    if s is not None:
+        try:
+            s.close()
+        except Exception:
+            pass
+        _TDX["sock"] = None
+
+
+def fetch_kline_tdx(secid, beg=KLINE_BEG, is_etf=True):
+    """通达信兜底：返回 [(date, close, turnover_yuan)]，收盘价与成交额均为真实值（不复权）。
+    仅支持 SH(1.)/SZ(0.) 的指数与 ETF；中证 2.xxx、国证 980xxx 指数库不含，直接抛错回退。"""
+    mkt_prefix, code = secid.split(".")
+    if mkt_prefix == "2":
+        raise RuntimeError("tdx 不支持中证指数(2.xxx)")
+    if (not is_etf) and code.startswith("980"):
+        raise RuntimeError("tdx 不支持国证指数(980xxx)")
+    market = 1 if mkt_prefix == "1" else 0
+    is_index = not is_etf
+    # 一个页(800)覆盖约 3.2 年，足够 KLINE_BEG=2024 起；带一次断线重连
+    for attempt in range(2):
+        try:
+            s = _tdx_sock()
+            body = _tdx_call(s, _tdx_build_req(market, code, 0, 800))
+            bars = _tdx_parse(body, is_index)
+            break
+        except Exception:
+            _tdx_close()
+            if attempt == 1:
+                raise
+    beg_date = f"{beg[:4]}-{beg[4:6]}-{beg[6:8]}"
+    out = []
+    for (y, mo, d, close, amount) in bars:
+        ds = f"{y:04d}-{mo:02d}-{d:02d}"
+        if ds < beg_date or close <= 0:
+            continue
+        amt = amount if amount and amount > 0 else None
+        out.append((ds, close, amt))
+    if not out:
+        raise RuntimeError("tdx empty")
+    return out
+
+
+# ==========================================================================================
+
+_FAILS = {"sina": 0, "em": 0, "sohu": 0, "tencent": 0}  # 各源连续失败次数；连续失败 2 次后本轮跳过该源
 
 
 def fetch_kline(secid, beg=KLINE_BEG, is_etf=True):
-    """多源容错，优先级：新浪 → 东财 → 腾讯（连续失败的源在本轮自动跳过）"""
+    """多源容错，优先级：新浪 → 东财 → 腾讯 → 通达信（连续失败的源在本轮自动跳过）"""
     if _FAILS["sina"] < 2:
         try:
             out = fetch_kline_sina(secid, beg, is_etf)
@@ -258,7 +458,16 @@ def fetch_kline(secid, beg=KLINE_BEG, is_etf=True):
         except Exception as e:
             _FAILS["em"] += 1
             print(f"  ! 东财源失败({secid}): {str(e)[:60]}，切换腾讯备源")
-    return fetch_kline_tencent(secid, beg, is_etf)
+    if _FAILS["tencent"] < 2:
+        try:
+            out = fetch_kline_tencent(secid, beg, is_etf)
+            _FAILS["tencent"] = 0
+            return out
+        except Exception as e:
+            _FAILS["tencent"] += 1
+            print(f"  ! 腾讯源失败({secid}): {str(e)[:60]}，切换通达信兜底")
+    out = fetch_kline_tdx(secid, beg, is_etf)
+    return out
 
 
 def merge_kline(cache_rows, fresh_rows):
