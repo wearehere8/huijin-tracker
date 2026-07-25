@@ -1,0 +1,632 @@
+{
+ "510330": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 88.62,
+   "combined_value_yi": 1953.04,
+   "held_units_yi_qfq": 420.28,
+   "total_shares_yi_qfq": 474.2496,
+   "by_body_pct": {
+    "huijin_inv": 44.15,
+    "huijin_am": 44.47,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "510300": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 82.76,
+   "combined_value_yi": 3280.89,
+   "held_units_yi_qfq": 735.131,
+   "total_shares_yi_qfq": 888.2685,
+   "by_body_pct": {
+    "huijin_inv": 40.14,
+    "huijin_am": 42.62,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "510310": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 85.27,
+   "combined_value_yi": 2424.47,
+   "held_units_yi_qfq": 561.481,
+   "total_shares_yi_qfq": 658.4743,
+   "by_body_pct": {
+    "huijin_inv": 41.54,
+    "huijin_am": 43.73,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159919": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 87.27,
+   "combined_value_yi": 1658.94,
+   "held_units_yi_qfq": 356.225,
+   "total_shares_yi_qfq": 408.1873,
+   "by_body_pct": {
+    "huijin_inv": 47.88,
+    "huijin_am": 39.09,
+    "guoxin": 0.0,
+    "chengtong": 0.3
+   }
+  }
+ ],
+ "510050": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 86.05,
+   "combined_value_yi": 1414.99,
+   "held_units_yi_qfq": 487.59,
+   "total_shares_yi_qfq": 566.6357,
+   "by_body_pct": {
+    "huijin_inv": 50.81,
+    "huijin_am": 35.24,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "510180": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 91.93,
+   "combined_value_yi": 202.98,
+   "held_units_yi_qfq": 52.3157,
+   "total_shares_yi_qfq": 56.9082,
+   "by_body_pct": {
+    "huijin_inv": 91.93,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "510500": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 75.58,
+   "combined_value_yi": 1085.44,
+   "held_units_yi_qfq": 144.0716,
+   "total_shares_yi_qfq": 190.6213,
+   "by_body_pct": {
+    "huijin_inv": 43.2,
+    "huijin_am": 32.38,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512500": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 65.76,
+   "combined_value_yi": 121.66,
+   "held_units_yi_qfq": 28.5389,
+   "total_shares_yi_qfq": 43.3986,
+   "by_body_pct": {
+    "huijin_inv": 47.26,
+    "huijin_am": 18.5,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159922": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 44.32,
+   "combined_value_yi": 70.59,
+   "held_units_yi_qfq": 23.1072,
+   "total_shares_yi_qfq": 52.1372,
+   "by_body_pct": {
+    "huijin_inv": 44.32,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "515800": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 30.48,
+   "combined_value_yi": 16.03,
+   "held_units_yi_qfq": 13.0763,
+   "total_shares_yi_qfq": 42.9012,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 30.48,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "560010": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 91.86,
+   "combined_value_yi": 330.32,
+   "held_units_yi_qfq": 105.4984,
+   "total_shares_yi_qfq": 114.8469,
+   "by_body_pct": {
+    "huijin_inv": 33.09,
+    "huijin_am": 58.77,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512100": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 86.43,
+   "combined_value_yi": 676.37,
+   "held_units_yi_qfq": 221.6889,
+   "total_shares_yi_qfq": 256.4953,
+   "by_body_pct": {
+    "huijin_inv": 34.92,
+    "huijin_am": 51.51,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159845": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 86.15,
+   "combined_value_yi": 431.82,
+   "held_units_yi_qfq": 137.2591,
+   "total_shares_yi_qfq": 159.3257,
+   "by_body_pct": {
+    "huijin_inv": 30.11,
+    "huijin_am": 56.04,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159629": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 85.74,
+   "combined_value_yi": 114.1,
+   "held_units_yi_qfq": 36.5009,
+   "total_shares_yi_qfq": 42.5716,
+   "by_body_pct": {
+    "huijin_inv": 30.84,
+    "huijin_am": 54.52,
+    "guoxin": 0.0,
+    "chengtong": 0.38
+   }
+  }
+ ],
+ "159915": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 54.03,
+   "combined_value_yi": 541.57,
+   "held_units_yi_qfq": 170.1982,
+   "total_shares_yi_qfq": 315.0068,
+   "by_body_pct": {
+    "huijin_inv": 36.07,
+    "huijin_am": 17.96,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159952": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 16.28,
+   "combined_value_yi": 22.3,
+   "held_units_yi_qfq": 11.5118,
+   "total_shares_yi_qfq": 70.7115,
+   "by_body_pct": {
+    "huijin_inv": 15.43,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.85
+   }
+  }
+ ],
+ "159977": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 8.94,
+   "combined_value_yi": 7.67,
+   "held_units_yi_qfq": 4.6201,
+   "total_shares_yi_qfq": 51.6792,
+   "by_body_pct": {
+    "huijin_inv": 8.94,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "588080": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 41.95,
+   "combined_value_yi": 277.65,
+   "held_units_yi_qfq": 216.0674,
+   "total_shares_yi_qfq": 515.0594,
+   "by_body_pct": {
+    "huijin_inv": 22.92,
+    "huijin_am": 19.03,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "588050": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 11.78,
+   "combined_value_yi": 12.53,
+   "held_units_yi_qfq": 9.6975,
+   "total_shares_yi_qfq": 82.3216,
+   "by_body_pct": {
+    "huijin_inv": 11.78,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159901": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 46.93,
+   "combined_value_yi": 32.57,
+   "held_units_yi_qfq": 9.5853,
+   "total_shares_yi_qfq": 20.4246,
+   "by_body_pct": {
+    "huijin_inv": 1.24,
+    "huijin_am": 45.69,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "560050": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 11.85,
+   "combined_value_yi": 4.56,
+   "held_units_yi_qfq": 4.5309,
+   "total_shares_yi_qfq": 38.2354,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 11.85,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "510230": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 77.59,
+   "combined_value_yi": 33.04,
+   "held_units_yi_qfq": 25.6356,
+   "total_shares_yi_qfq": 33.0398,
+   "by_body_pct": {
+    "huijin_inv": 77.59,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512660": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 6.26,
+   "combined_value_yi": 6.34,
+   "held_units_yi_qfq": 4.863,
+   "total_shares_yi_qfq": 77.684,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 5.39,
+    "guoxin": 0.87,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "516110": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 14.92,
+   "combined_value_yi": 0.8,
+   "held_units_yi_qfq": 0.6171,
+   "total_shares_yi_qfq": 4.1359,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 14.92,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159995": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 1.92,
+   "combined_value_yi": 4.54,
+   "held_units_yi_qfq": 2.8017,
+   "total_shares_yi_qfq": 145.9203,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 1.92,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "515790": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 0.64,
+   "combined_value_yi": 0.78,
+   "held_units_yi_qfq": 0.7509,
+   "total_shares_yi_qfq": 117.3308,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 0.64,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512010": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 3.88,
+   "combined_value_yi": 6.33,
+   "held_units_yi_qfq": 17.3927,
+   "total_shares_yi_qfq": 448.2665,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 3.88,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512690": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 1.65,
+   "combined_value_yi": 2.86,
+   "held_units_yi_qfq": 5.81,
+   "total_shares_yi_qfq": 352.1212,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 1.65,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "515170": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 2.27,
+   "combined_value_yi": 1.22,
+   "held_units_yi_qfq": 2.3523,
+   "total_shares_yi_qfq": 103.6269,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 2.27,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159865": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 1.37,
+   "combined_value_yi": 0.77,
+   "held_units_yi_qfq": 1.2869,
+   "total_shares_yi_qfq": 93.935,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 1.37,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512170": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 0.31,
+   "combined_value_yi": 0.76,
+   "held_units_yi_qfq": 2.297,
+   "total_shares_yi_qfq": 740.9742,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 0.31,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159605": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 17.49,
+   "combined_value_yi": 6.08,
+   "held_units_yi_qfq": 7.0,
+   "total_shares_yi_qfq": 40.0229,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 17.49,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "513050": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 3.59,
+   "combined_value_yi": 11.4,
+   "held_units_yi_qfq": 9.7,
+   "total_shares_yi_qfq": 270.195,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 3.59,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "512400": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 3.44,
+   "combined_value_yi": 7.29,
+   "held_units_yi_qfq": 3.6761,
+   "total_shares_yi_qfq": 106.8634,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 2.11,
+    "guoxin": 0.0,
+    "chengtong": 1.33
+   }
+  }
+ ],
+ "515210": [
+  {
+   "report_date": "2026-03-31",
+   "combined_ratio_pct": 2.37,
+   "combined_value_yi": 0.93,
+   "held_units_yi_qfq": 0.6503,
+   "total_shares_yi_qfq": 27.4396,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 1.29,
+    "guoxin": 0.0,
+    "chengtong": 1.08
+   }
+  }
+ ],
+ "510100": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 5.83,
+   "combined_value_yi": 2.7771,
+   "held_units_yi_qfq": 0.917582,
+   "total_shares_yi_qfq": 15.7281,
+   "by_body_pct": {
+    "huijin_inv": 5.83,
+    "huijin_am": 0.0,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "515020": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 12.6,
+   "combined_value_yi": 1.1813,
+   "held_units_yi_qfq": 0.675,
+   "total_shares_yi_qfq": 5.3585,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 12.6,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159562": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 6.86,
+   "combined_value_yi": 2.0818,
+   "held_units_yi_qfq": 0.929997,
+   "total_shares_yi_qfq": 13.5513,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 6.86,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "515050": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 5.83,
+   "combined_value_yi": 4.5486,
+   "held_units_yi_qfq": 2.0,
+   "total_shares_yi_qfq": 34.3107,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 5.83,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "561580": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 4.11,
+   "combined_value_yi": 0.4199,
+   "held_units_yi_qfq": 0.337099,
+   "total_shares_yi_qfq": 8.1987,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 4.11,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "159852": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 1.75,
+   "combined_value_yi": 1.0547,
+   "held_units_yi_qfq": 1.22126,
+   "total_shares_yi_qfq": 69.7662,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 1.75,
+    "guoxin": 0.0,
+    "chengtong": 0.0
+   }
+  }
+ ],
+ "560170": [
+  {
+   "report_date": "2025-12-31",
+   "combined_ratio_pct": 66.3,
+   "combined_value_yi": 8.9246,
+   "held_units_yi_qfq": 8.61279,
+   "total_shares_yi_qfq": 12.99,
+   "by_body_pct": {
+    "huijin_inv": 0.0,
+    "huijin_am": 0.0,
+    "guoxin": 66.3,
+    "chengtong": 0.0
+   }
+  }
+ ]
+}

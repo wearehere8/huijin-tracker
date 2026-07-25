@@ -1,0 +1,48 @@
+name: Daily Data Refresh
+
+on:
+  schedule:
+    # 每天 20:00（北京时间 UTC+8）= 12:00 UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Restore caches from data branch (incremental)
+        run: |
+          git fetch origin data:data || true
+          git checkout data -- kline_cache.json shares_cache.json 2>/dev/null \
+            || echo "no caches yet; first run will fetch full history"
+
+      - name: Refresh data
+        run: python refresh_data.py
+
+      - name: Publish data to data branch (single rolling commit)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git checkout --orphan data-tmp
+          git rm -rf . --cached --quiet
+          git add data.js data.json disclosures.json kline_cache.json shares_cache.json
+          git commit -m "data: daily refresh $(date +'%Y-%m-%d')" || echo "nothing changed"
+          git branch -D data 2>/dev/null || true
+          git branch -m data
+          git push --force origin data

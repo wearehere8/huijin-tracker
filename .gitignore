@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# 本地日志（可再生产物）
+*.log
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 说明：data.js / data.json / kline_cache.json / shares_cache.json / scan_market.json
+# 均为有意提交——云端每日刷新依赖它们做增量更新与首次基线。

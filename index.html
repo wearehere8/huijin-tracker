@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>汇金证金及其关联公司持仓追踪</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="">
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="site-brand">汇金证金及其关联公司持仓追踪</div>
+        <div class="title-row">
+          <h1 id="pageTitle">加载中…</h1>
+        </div>
+        <div class="meta-line" id="metaLine">净申赎金额：份额变化×ETF成交均价估算</div>
+      </div>
+      <div class="toolbar">
+        <select id="groupSelect" aria-label="ETF 分组"></select>
+        <select id="etfSelect" aria-label="ETF"></select>
+        <button id="refreshBtn" type="button" class="secondary">刷新数据</button>
+        <button id="resetZoomBtn" type="button" class="secondary" disabled="">复位</button>
+        <button id="themeToggleBtn" type="button" class="secondary" title="切换日间/夜间模式">夜间</button>
+      </div>
+    </header>
+
+    <nav class="mobile-view-switch" aria-label="手机视图切换">
+      <button id="mobileChartsTab" type="button" class="is-active">主图</button>
+      <button id="mobileTrendTab" type="button">趋势追踪</button>
+    </nav>
+
+    <section class="dashboard-grid">
+      <aside class="etf-rail" aria-label="ETF 列表">
+        <div id="etfList" class="etf-list"></div>
+      </aside>
+
+      <section class="main-stage" aria-label="ETF 日度图主视图">
+        <section class="summary-grid" aria-label="最新数据摘要">
+          <div class="summary-item"><span>最新日期</span><strong id="mDate">-</strong></div>
+          <div class="summary-item"><span id="mPriceLabel">前复权价</span><strong id="mPrice">-</strong></div>
+          <div class="summary-item"><span id="mTurnoverLabel">复权成交额</span><strong id="mTurnover">-</strong></div>
+          <div class="summary-item"><span id="mSharesLabel">复权份额</span><strong id="mShares">-</strong></div>
+          <div class="summary-item"><span>最新披露持仓比例</span><strong id="mHoldingRatio">-</strong></div>
+          <div class="summary-item"><span>最新披露持仓金额</span><strong id="mHoldingValue">-</strong></div>
+        </section>
+
+        <section id="rangeSummaryStrip" class="range-summary-strip" aria-label="累计摘要和快捷缩放"></section>
+
+        <section class="date-range-panel" aria-label="显示日期区间">
+          <label>
+            <span>开始</span>
+            <input id="dateStartInput" type="date">
+          </label>
+          <label>
+            <span>结束</span>
+            <input id="dateEndInput" type="date">
+          </label>
+          <button id="applyDateRangeBtn" type="button">应用</button>
+          <button id="fullDateRangeBtn" type="button" class="secondary" disabled="">全区间</button>
+        </section>
+
+        <section class="time-scroll-panel" aria-label="图表时间位置">
+          <div class="time-scroll-head">
+            <span id="timeScrollLabel">全区间</span>
+            <button id="scrollLatestBtn" type="button" class="secondary">最新</button>
+          </div>
+          <div id="timeScrollTrack" class="time-scroll-track" role="group" aria-label="拖动左右边界或中间区域调整时间窗口">
+            <div id="timeScrollWindow" class="time-scroll-window" style="left: 0%; width: 100%;">
+              <button id="timeHandleStart" class="time-scroll-handle time-scroll-handle-start" type="button" aria-label="调整开始日期"></button>
+              <button id="timeHandleEnd" class="time-scroll-handle time-scroll-handle-end" type="button" aria-label="调整结束日期"></button>
+            </div>
+          </div>
+        </section>
+
+        <section class="chart-stack" aria-label="五联日度图">
+          <div class="chart" data-chart="price"><svg role="img" aria-label="日线价格走势"></svg></div>
+          <div class="chart" data-chart="turnover"><svg role="img" aria-label="日度 ETF 成交额"></svg></div>
+          <div class="chart" data-chart="shares"><svg role="img" aria-label="日线 ETF 份额走势"></svg></div>
+          <div class="chart" data-chart="flow"><svg role="img" aria-label="日度 ETF 申购赎回份额"></svg></div>
+          <div class="chart" data-chart="flowImpact"><svg role="img" aria-label="净申购金额占指数成交额"></svg></div>
+          <div id="tooltip" class="tooltip" role="status" aria-live="polite" style="visibility: hidden;"></div>
+        </section>
+      </section>
+
+      <aside class="trend-panel" id="trendPanel" aria-label="区间趋势看板">
+        <div class="section-head">
+          <div>
+            <h2 id="trendTitle">区间趋势</h2>
+            <div class="meta-line" id="trendMeta"></div>
+          </div>
+          <button id="trendPopoutBtn" class="secondary trend-popout-btn" type="button" aria-expanded="false">展开</button>
+        </div>
+        <section class="trend-range-panel" aria-label="趋势表日期区间">
+          <label><span>开始</span><input id="trendStartInput" type="date"></label>
+          <label><span>结束</span><input id="trendEndInput" type="date"></label>
+          <button id="applyTrendRangeBtn" type="button">应用</button>
+          <button id="trendRecentBtn" type="button" class="secondary">最近一周</button>
+        </section>
+        <section id="trendAggregateSummary" class="trend-aggregate-summary" aria-label="合计摘要" hidden=""></section>
+        <div class="trend-table-wrap">
+          <table class="trend-table">
+            <thead>
+              <tr>
+                <th>ETF / 合计</th><th>日期</th><th>价格变动</th><th>成交额</th><th>成交额分位</th>
+                <th>净份额变动</th><th>净份额分位</th><th>净申赎金额</th><th>净申赎/指数成交额</th>
+              </tr>
+            </thead>
+            <tbody id="trendTableBody"></tbody>
+          </table>
+        </div>
+      </aside>
+      <div id="trendBackdrop" class="trend-backdrop" hidden=""></div>
+    </section>
+
+    <div class="status-line" id="statusLine"></div>
+
+    <footer class="footnote" aria-label="备注">
+      <p>注：2025 年报（报告期 2025-12-31）另扫描到诚通系（中国诚通控股 / 北京诚通金控 / 国调基金）直接或专户持有的 ETF 共 15 只，暂未纳入本仪表盘追踪：515820（80.86%）、159379（79.97%）、159219（75.03%）、159335（69.35%）、560810（47.79%）、159336（34.93%）、513970（5.22%）、561220（4.88%）、159385（3.25%）、159389（3.10%）、510900（2.03%）、512710（1.39%）、518850（1.10%）、513120（0.43%）、518880（0.29%）。明细见 scan_candidates.json。</p>
+    </footer>
+  </main>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
