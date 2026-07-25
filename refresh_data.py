@@ -260,7 +260,7 @@ TDX_SETUP = [
     bytes.fromhex("0c 03 18 99 00 01 20 00 20 00 db 0f d5 d0 c9 cc d6 a4 a8 af "
                   "00 00 00 8f c2 25 40 13 00 00 d5 00 c9 cc bd f0 d7 ea 00 00 00 02"),
 ]
-_TDX = {"sock": None}  # 复用长连接，避免逐指数重复握手
+_TDX = {"sock": None, "dead": False}  # 复用长连接；dead=True 表示本轮所有服务器不可达，后续直接跳过
 
 
 def _tdx_build_req(market, code, start, count):
@@ -372,15 +372,18 @@ def _tdx_parse(buf, is_index):
 
 
 def _tdx_sock():
-    """返回可用长连接（缓存复用）；不可用时轮换服务器重连并握手"""
+    """返回可用长连接（缓存复用）；不可用时轮换服务器重连并握手。
+    若本轮已判定所有服务器不可达（dead），立即抛错，避免每个标的重复 8×超时。"""
+    if _TDX.get("dead"):
+        raise RuntimeError("tdx dead(本轮已判定不可达)")
     s = _TDX.get("sock")
     if s is not None:
         return s
     last_err = None
     for ip, port in TDX_SERVERS:
         try:
-            s = socket.create_connection((ip, port), timeout=6)
-            s.settimeout(10)
+            s = socket.create_connection((ip, port), timeout=4)
+            s.settimeout(8)
             for p in TDX_SETUP:
                 _tdx_call(s, p)
             _TDX["sock"] = s
@@ -388,6 +391,7 @@ def _tdx_sock():
         except Exception as e:
             last_err = e
             continue
+    _TDX["dead"] = True  # 8 台全挂 → 境外多半整体被墙，本轮不再尝试
     raise RuntimeError("tdx no server: %s" % last_err)
 
 
