@@ -115,7 +115,7 @@
     let theme = null;
     try { theme = localStorage.getItem(THEME_KEY); } catch (e) {}
     if (!theme) {
-      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      theme = "light"; // 默认日间显示；用户切换后记住选择
     }
     applyTheme(theme);
   }
