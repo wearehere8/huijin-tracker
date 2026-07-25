@@ -1,5 +1,7 @@
 # 汇金证金及其关联公司持仓追踪
 
+> 🌐 **线上版本（直接访问）**：[https://wearehere8.github.io/huijin-tracker/](https://wearehere8.github.io/huijin-tracker/)
+
 一个纯静态、可自托管的 **A 股 ETF 国家队持仓追踪仪表盘**。聚焦中央汇金（汇金投资 / 汇金资管）、中国国新（国新投资）等"国家队"主体在 ETF 十大持有人中的直接持仓，并结合行情、份额、资金流数据，呈现其增持 / 减持动向。
 
 > ⚠️ 本项目为 **AI 工具生成的演示性作品**，仅用于技术研究与学习参考，**不构成任何投资建议**。详见 [免责声明](免责声明.md)。
@@ -72,7 +74,7 @@ python serve.py
 
 ## 五、在线版本与每日自动刷新
 
-- 线上站点（GitHub Pages）：`https://wearehere8.github.io/huijin-tracker/`
+- 线上站点（GitHub Pages）：[https://wearehere8.github.io/huijin-tracker/](https://wearehere8.github.io/huijin-tracker/)
 - 数据由 **GitHub Actions** 每日 **20:00（北京时间，UTC+8）** 自动刷新并发布，无需本地电脑开机。
 
 **仓库分支策略**：
